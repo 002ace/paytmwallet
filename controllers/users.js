@@ -1,4 +1,5 @@
 const  User =  require("../models/userSchema")
+const Account =  require("../models/accountSchema")
 const {z}  =  require("zod");
 const bcrypt =  require("bcrypt")
 const JWT =  require("jsonwebtoken")
@@ -37,6 +38,14 @@ exports.signup = async(req , res)=>{
                   firstname ,
                   lastname
             }
+            
+            //intialize balnce  while signup
+            await Account.create({
+                userId : userDetails._id,
+                balance: 1 + Math.random() * 10000
+            })
+
+
 
             const  option = {
                  expires : new Date(Date.now() +3*24*60*60*1000 ),
@@ -200,4 +209,30 @@ exports.update  = async(req , res)=>{
               message:"failed to update  details"
          })
     }
+}
+
+
+
+exports.details  = async(req ,  res) =>{
+       try
+       {    
+              const id  =  req.user.id ;
+
+             const details  = User.findById(id);
+
+             return res.status(200).json({
+                   success:true ,
+                   message : "user details fetchc successfully",
+                   data : details
+             })
+
+       }
+       catch(error)
+       {     
+            return res.status(500).json({
+            success:false ,
+            message : "user details fetch successfully",
+           })
+
+       }
 }

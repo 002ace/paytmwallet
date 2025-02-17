@@ -7,7 +7,13 @@ app.use(express.json());
 app.use(cookieParser());
 
 
+const userpath =  require("./routes/userRoute");
+const  account  = require("./routes/accountRoute")
+app.use("/api" , userpath);
+app.use("/account" , account);
+
+
 dbConnect()
-app.listen(3000 , ()=>{
+app.listen(4000 , ()=>{
      console.log("servere running  successfully");
 })
