@@ -8,6 +8,8 @@ exports.transfer  =  async(req,res) =>{
        session.startTransaction();
        try
        {      const  fromAccountId =   req.user.id ;
+             
+              
               const {toAccountId, amount}  =  req.body ;
 
               if(!toAccountId ||  !amount)
@@ -18,9 +20,10 @@ exports.transfer  =  async(req,res) =>{
                     })
               }
 
-              const  accounnt   =  await Account.findById(fromAccountId);
+              const  account   =  await Account.findOne({userId:fromAccountId});
+             
 
-              if(accountSchema.balance  < amount  )
+              if(account.balance  < amount  )
               {
                     return res.status(500).json({
                          success:false  ,
@@ -29,9 +32,9 @@ exports.transfer  =  async(req,res) =>{
               }
 
 
-              await Account.findByIdAndUpdate(fromAccountId, { $inc: { balance:-amount } } , {session});
+              await Account.findOneAndUpdate({ userId: fromAccountId }, { $inc: { balance:-amount } } , {session});
 
-              await  Account.findByIdAndUpdate(toAccountId , { $inc: { balance:+amount }   }  , {session} ) ; 
+              await  Account.findOneAndUpdate({ userId: toAccountId }, { $inc: { balance:+amount }   }  , {session} ) ; 
 
 
               await session.commitTransaction();

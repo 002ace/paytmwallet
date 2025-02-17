@@ -3,7 +3,8 @@ require("dotenv").config();
 exports.auth =  async(req ,res , next) =>{
      try
      {  
-           const token =  req.cookies || req.body ;
+           const token =  req.cookies.token || req.body ;
+     
 
            if(!token)
            {

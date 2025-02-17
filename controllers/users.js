@@ -9,7 +9,7 @@ exports.signup = async(req , res)=>{
 
     try{   
             const requiredBody  = z.object({
-                username: z.string().min(3).max(10).email(),
+                username: z.string().min(3).max(50).email(),
                 firstname:z.string().min(3).max(10),
                 lastname:z.string().min(3).max(10),
                 password:z.string().min(3).max(10)
@@ -122,8 +122,8 @@ exports.login  = async(req,res)=>{
                     }
 
                     res.cookie('token' , token , option).status(200).json({
-                         message:"login success fully",
-                         success:false,
+                         message:"login successfully",
+                         success:true,
                          token,
                     })
              }

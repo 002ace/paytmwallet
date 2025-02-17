@@ -12,7 +12,7 @@ router.post("/login" , login);
 
 router.post("/logout" , logout) ; 
 
-router.put("/update" , auth  , update) ;
+router.patch("/update" , auth  , update) ;
 
 router.get("/details" ,  auth , details ) ;
 
